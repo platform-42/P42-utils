@@ -9,7 +9,6 @@
 
 import Foundation
 
-
 public class Json {
     
     public static func toJsonString<T: Codable>(request: T) -> String? {

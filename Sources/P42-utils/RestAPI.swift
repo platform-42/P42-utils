@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public enum ShopifyHeader: String {
     case access_token = "X-Shopify-Access-Token"
 }
@@ -28,7 +27,6 @@ public class RestAPI {
         meta: Meta,
         handler: @escaping (Data, Meta) -> Void
     ) {
-        print("\(String(describing: type(of: self))).\(#function)")
         guard let url = components.url else {
             return
         }
