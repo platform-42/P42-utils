@@ -30,7 +30,7 @@ public enum StateColor: Int {
     case up = 0x008E00
     case down = 0xFF2500
     case neutral = 0xFDC209
-    case none = 0xAAAAAA
+    case none
 }
 
 
@@ -48,7 +48,7 @@ public enum StatusColor: Int {
     case alert = 0xFF2500
     case warning = 0xFDC209
     case normal = 0x008E00
-    case none = 0x000000
+    case none
 }
 
 public class Utils {
