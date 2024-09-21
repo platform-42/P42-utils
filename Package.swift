@@ -5,6 +5,10 @@ import PackageDescription
 
 let package = Package(
     name: "P42-utils",
+    platforms: [
+        .iOS(.v15),
+        .watchOS(.v6)
+    ],
     products: [
         .library(
             name: "P42-utils",
