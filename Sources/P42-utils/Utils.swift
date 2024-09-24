@@ -34,23 +34,6 @@ public enum StateColor: Int {
 }
 
 
-/*
- *  status model and colors
- */
-public enum StatusLogic: String {
-    case alert
-    case warning
-    case normal
-    case none
-}
-
-public enum StatusColor: Int {
-    case alert = 0xFF2500
-    case warning = 0xFDC209
-    case normal = 0x008E00
-    case none
-}
-
 public class Utils {
 
     
@@ -72,27 +55,7 @@ public class Utils {
             case .none: return Color.clear
         }
     }
-    
-    @available(macOS 10.15, *)
-    public static func statusFieldColor(_ statusLogic: StatusLogic) -> Color {
-        switch (statusLogic) {
-            case .alert: return .white
-            case .warning: return .black
-            case .normal: return .primary
-            case .none: return .primary
-        }
-    }
-    
-    @available(macOS 10.15, *)
-    public static func statusFieldBackgroundColor(_ statusLogic: StatusLogic) -> Color {
-        switch (statusLogic) {
-            case .alert: return Color(hex: StatusColor.alert.rawValue)
-            case .warning: return Color(hex: StatusColor.warning.rawValue)
-            case .normal: return Color(hex: StatusColor.normal.rawValue)
-            case .none: return Color.clear
-        }
-    }
-        
+            
     public static func iosVersion() -> String {
         let os = ProcessInfo.processInfo.operatingSystemVersion
         return "\(os.majorVersion).\(os.minorVersion).\(os.patchVersion)"
