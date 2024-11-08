@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "p42-extensions",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/platform-42/P42-extensions.git",
+      "state" : {
+        "revision" : "151819c9b622a003b3f230fa48eff0beafa4deef",
+        "version" : "2.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}

@@ -6,13 +6,16 @@ import PackageDescription
 let package = Package(
     name: "P42-utils",
     platforms: [
-        .iOS(.v15),
+        .iOS(.v16),
         .watchOS(.v6)
     ],
     products: [
         .library(
             name: "P42-utils",
             targets: ["P42-utils"]),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/platform-42/P42-extensions.git", from: "2.0.0")
     ],
     targets: [
         .target(
