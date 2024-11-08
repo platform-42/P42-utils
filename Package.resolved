@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/platform-42/P42-extensions.git",
       "state" : {
-        "revision" : "151819c9b622a003b3f230fa48eff0beafa4deef",
-        "version" : "2.0.0"
+        "revision" : "b168b0171855173c5294c8d102bca951fddad526",
+        "version" : "3.0.0"
       }
     }
   ],
