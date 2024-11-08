@@ -46,7 +46,6 @@ public class RestAPI {
             return
         }
         var request = URLRequest(url: url)
-        request.addValue(secret, forHTTPHeaderField: ShopifyHeader.access_token.rawValue)
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 return
