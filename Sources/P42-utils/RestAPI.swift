@@ -36,6 +36,33 @@ public class RestAPI {
      *      handler -> invoked on completion, delegates IO completion to meta object
      */
     @MainActor
+    public static func getRequestShopify(
+        components: URLComponents,
+        secret: String,
+        meta: Meta,
+        handler: @escaping (Data, Meta) -> Void
+    ) {
+        guard let url = components.url else {
+            return
+        }
+        var request = URLRequest(url: url)
+        request.addValue(secret, forHTTPHeaderField: ShopifyHeader.access_token.rawValue)
+        request.addValue("application/json", forHTTPHeaderField: HTTPHeader.contentType.rawValue)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                return
+            }
+            guard let data = data else {
+                return
+            }
+            DispatchQueue.main.async {
+                handler(data, meta)
+            }
+        }
+        .resume()
+    }
+    
+    @MainActor
     public static func getRequest(
         components: URLComponents,
         secret: String,
@@ -46,6 +73,8 @@ public class RestAPI {
             return
         }
         var request = URLRequest(url: url)
+        request.addValue("Bearer \(secret)", forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+        request.addValue("application/json", forHTTPHeaderField: HTTPHeader.contentType.rawValue)
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 return
