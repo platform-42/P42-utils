@@ -38,7 +38,7 @@ public class RestAPI {
     @MainActor
     public static func getRequestShopify(
         components: URLComponents,
-        secret: String,
+        secret: String?,
         meta: Meta,
         handler: @escaping (Data, Meta) -> Void
     ) {
@@ -46,7 +46,9 @@ public class RestAPI {
             return
         }
         var request = URLRequest(url: url)
-        request.addValue(secret, forHTTPHeaderField: ShopifyHeader.access_token.rawValue)
+        if let secret = secret {
+            request.addValue(secret, forHTTPHeaderField: ShopifyHeader.access_token.rawValue)
+        }
         request.addValue("application/json", forHTTPHeaderField: HTTPHeader.contentType.rawValue)
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
@@ -65,21 +67,29 @@ public class RestAPI {
     @MainActor
     public static func getRequest(
         components: URLComponents,
-        secret: String,
+        secret: String?,
         meta: Meta,
         handler: @escaping (Data, Meta) -> Void
     ) {
-        guard let url = components.url else {
+        guard let url = URL(string: url) else {
+            let urlError = NSError(domain: "P42.postRequest", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])
+            handler(.failure((urlError, meta)))
             return
         }
         var request = URLRequest(url: url)
-        request.addValue("Bearer \(secret)", forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+        if let secret = secret {
+            request.addValue("Bearer \(secret)", forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+        }
         request.addValue("application/json", forHTTPHeaderField: HTTPHeader.contentType.rawValue)
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                return
+                handler(.failure(error, meta))
             }
             guard let data = data else {
+                let noDataError = NSError(domain: "P42.postRequest", code: -2, userInfo: [NSLocalizedDescriptionKey: "No data received"])
+                DispatchQueue.main.async {
+                    handler(.failure((noDataError, meta)))
+                }
                 return
             }
             DispatchQueue.main.async {
@@ -93,28 +103,43 @@ public class RestAPI {
     @MainActor
     public static func postRequest(
         url: String,
-        secret: String,
+        secret: String?,
         meta: Meta,
         jsonBody: [String: Any],
-        handler: @escaping (Data, Meta) -> Void
+        handler: @escaping (Result<(Data, Meta), (Error, Meta)>) -> Void
     ) {
         guard let url = URL(string: url) else {
+            let urlError = NSError(domain: "P42.postRequest", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])
+            handler(.failure((urlError, meta)))
             return
         }
         var request = URLRequest(url: url)
         request.httpMethod = RequestType.post.rawValue
-        request.addValue("Bearer \(secret)", forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+        if let secret = secret {
+            request.addValue("Bearer \(secret)", forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+        }
         request.addValue("application/json", forHTTPHeaderField: HTTPHeader.contentType.rawValue)
-        request.httpBody = try? JSONSerialization.data(withJSONObject: jsonBody)
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: jsonBody)
+        } catch {
+            DispatchQueue.main.async {
+                handler(.failure((error, meta)))
+            }
+            return
+        }
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                return
+                handler(.failure(error, meta))
             }
             guard let data = data else {
+                let noDataError = NSError(domain: "P42.postRequest", code: -2, userInfo: [NSLocalizedDescriptionKey: "No data received"])
+                DispatchQueue.main.async {
+                    handler(.failure((noDataError, meta)))
+                }
                 return
             }
             DispatchQueue.main.async {
-                handler(data, meta)
+                handler(.success(data, meta))
             }
         }.resume()
     }
