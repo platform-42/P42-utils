@@ -26,6 +26,12 @@ public enum RequestType: String {
     case delete
 }
 
+public enum RequestError: Error {
+    case invalidURL
+    case noData
+    case httpError(Int)
+}
+
 public class RestAPI {
     
     /*
@@ -66,34 +72,47 @@ public class RestAPI {
     
     @MainActor
     public static func getRequest(
-        components: URLComponents,
+        url: String,
         secret: String?,
         meta: Meta,
-        handler: @escaping (Data, Meta) -> Void
+        handler: @escaping (Result<Data, Error>, Meta) -> Void
     ) {
         guard let url = URL(string: url) else {
-            let urlError = NSError(domain: "P42.postRequest", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])
-            handler(.failure((urlError, meta)))
+            handler(.failure(RequestError.invalidURL), meta)
             return
         }
         var request = URLRequest(url: url)
         if let secret = secret {
-            request.addValue("Bearer \(secret)", forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+            request.addValue(
+                "Bearer \(secret)",
+                forHTTPHeaderField: HTTPHeader.authorization.rawValue
+            )
         }
-        request.addValue("application/json", forHTTPHeaderField: HTTPHeader.contentType.rawValue)
+        request.addValue(
+            "application/json",
+            forHTTPHeaderField: HTTPHeader.contentType.rawValue
+        )
         URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                handler(.failure(error, meta))
+            if let error = error {
+                DispatchQueue.main.async {
+                    handler(.failure(error), meta)
+                }
+                return
+            }
+            if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
+                DispatchQueue.main.async {
+                    handler(.failure(RequestError.httpError(httpResponse.statusCode)), meta)
+                }
+                return
             }
             guard let data = data else {
-                let noDataError = NSError(domain: "P42.postRequest", code: -2, userInfo: [NSLocalizedDescriptionKey: "No data received"])
                 DispatchQueue.main.async {
-                    handler(.failure((noDataError, meta)))
+                    handler(.failure(RequestError.noData), meta)
                 }
                 return
             }
             DispatchQueue.main.async {
-                handler(data, meta)
+                handler(.success(data), meta)
             }
         }
         .resume()
@@ -106,40 +125,46 @@ public class RestAPI {
         secret: String?,
         meta: Meta,
         jsonBody: [String: Any],
-        handler: @escaping (Result<(Data, Meta), (Error, Meta)>) -> Void
+        handler: @escaping (Result<Data, Error>, Meta) -> Void
     ) {
         guard let url = URL(string: url) else {
-            let urlError = NSError(domain: "P42.postRequest", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])
-            handler(.failure((urlError, meta)))
+            handler(.failure(RequestError.invalidURL), meta)
             return
         }
         var request = URLRequest(url: url)
         request.httpMethod = RequestType.post.rawValue
         if let secret = secret {
-            request.addValue("Bearer \(secret)", forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+            request.addValue(
+                "Bearer \(secret)",
+                forHTTPHeaderField: HTTPHeader.authorization.rawValue
+            )
         }
-        request.addValue("application/json", forHTTPHeaderField: HTTPHeader.contentType.rawValue)
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: jsonBody)
-        } catch {
-            DispatchQueue.main.async {
-                handler(.failure((error, meta)))
-            }
-            return
-        }
+        request.addValue(
+            "application/json",
+            forHTTPHeaderField: HTTPHeader.contentType.rawValue
+        )
+        request.httpBody = try? JSONSerialization.data(withJSONObject: jsonBody)
         URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                handler(.failure(error, meta))
+            if let error = error {
+                DispatchQueue.main.async {
+                    handler(.failure(error), meta)
+                }
+                return
+            }
+            if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
+                DispatchQueue.main.async {
+                    handler(.failure(RequestError.httpError(httpResponse.statusCode)), meta)
+                }
+                return
             }
             guard let data = data else {
-                let noDataError = NSError(domain: "P42.postRequest", code: -2, userInfo: [NSLocalizedDescriptionKey: "No data received"])
                 DispatchQueue.main.async {
-                    handler(.failure((noDataError, meta)))
+                    handler(.failure(RequestError.noData), meta)
                 }
                 return
             }
             DispatchQueue.main.async {
-                handler(.success(data, meta))
+                handler(.success(data), meta)
             }
         }.resume()
     }
