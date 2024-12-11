@@ -30,6 +30,7 @@ public enum RequestError: Error {
     case invalidURL
     case noData
     case httpError(Int)
+    case unauthorized
 }
 
 public class RestAPI {
@@ -99,11 +100,13 @@ public class RestAPI {
                 }
                 return
             }
-            if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
-                DispatchQueue.main.async {
-                    handler(.failure(RequestError.httpError(httpResponse.statusCode)), meta)
+            if let response = response as? HTTPURLResponse {
+                if !(200...299).contains(response.statusCode) {
+                    DispatchQueue.main.async {
+                        handler(.failure(RequestError.httpError(response.statusCode)), meta)
+                    }
+                    return
                 }
-                return
             }
             guard let data = data else {
                 DispatchQueue.main.async {
@@ -151,11 +154,13 @@ public class RestAPI {
                 }
                 return
             }
-            if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
-                DispatchQueue.main.async {
-                    handler(.failure(RequestError.httpError(httpResponse.statusCode)), meta)
+            if let response = response as? HTTPURLResponse {
+                if !(200...299).contains(response.statusCode) {
+                    DispatchQueue.main.async {
+                        handler(.failure(RequestError.httpError(response.statusCode)), meta)
+                    }
+                    return
                 }
-                return
             }
             guard let data = data else {
                 DispatchQueue.main.async {
