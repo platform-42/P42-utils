@@ -1,0 +1,41 @@
+//
+//  File.swift
+//  
+//
+//  Created by Diederick de Buck on 19/12/2024.
+//
+
+import Foundation
+
+public class RestAPIAsync {
+    
+    static func getRequest(
+        from url: String,
+        secret: String
+    ) async throws -> Data {
+        guard let url = URL(string: url) else {
+            throw URLError(.badURL)
+        }
+        var request = URLRequest(url: url)
+        if let secret = secret {
+            request.addValue(
+                "Bearer \(secret)",
+                forHTTPHeaderField: HTTPHeader.authorization.rawValue
+            )
+        }
+        request.addValue(
+            "application/json",
+            forHTTPHeaderField: HTTPHeader.contentType.rawValue
+        )
+        let (data, response) = try await URLSession.shared.data(from: url)
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw URLError(.badServerResponse)
+        }
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw URLError(.init(rawValue: httpResponse.statusCode))
+        }
+        return data
+    }
+    
+}
+
