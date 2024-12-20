@@ -46,6 +46,7 @@ public class RestAPIAsync {
             throw URLError(.badURL)
         }
         var request = URLRequest(url: url)
+        request.httpMethod = RequestType.post.rawValue
         if let secret = secret {
             request.addValue(
                 "Bearer \(secret)",
