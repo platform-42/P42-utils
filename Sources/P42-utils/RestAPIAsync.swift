@@ -9,7 +9,7 @@ import Foundation
 
 public class RestAPIAsync {
     
-    static func getRequest(
+    public static func getRequest(
         url: String,
         secret: String?
     ) async throws -> Data {
@@ -37,7 +37,7 @@ public class RestAPIAsync {
         return data
     }
 
-    static func postRequest(
+    public static func postRequest(
         url: String,
         secret: String?,
         jsonBody: [String: Any]
