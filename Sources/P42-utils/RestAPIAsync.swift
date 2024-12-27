@@ -14,7 +14,7 @@ public class RestAPIAsync {
         secret: String?
     ) async throws -> Data {
         guard let url = URL(string: url) else {
-            throw URLError(.badURL)
+            throw RequestError.invalidURL
         }
         var request = URLRequest(url: url)
         if let secret = secret {
@@ -29,10 +29,10 @@ public class RestAPIAsync {
         )
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let httpResponse = response as? HTTPURLResponse else {
-            throw URLError(.badServerResponse)
+            throw RequestError.noData
         }
         guard (200...299).contains(httpResponse.statusCode) else {
-            throw URLError(.init(rawValue: httpResponse.statusCode))
+            throw RequestError.httpError(httpResponse.statusCode)
         }
         return data
     }
@@ -43,7 +43,7 @@ public class RestAPIAsync {
         jsonBody: [String: Any]
     ) async throws -> Data {
         guard let url = URL(string: url) else {
-            throw URLError(.badURL)
+            throw RequestError.invalidURL
         }
         var request = URLRequest(url: url)
         request.httpMethod = RequestType.post.rawValue
@@ -60,10 +60,10 @@ public class RestAPIAsync {
         request.httpBody = try? JSONSerialization.data(withJSONObject: jsonBody)
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let httpResponse = response as? HTTPURLResponse else {
-            throw URLError(.badServerResponse)
+            throw RequestError.noData
         }
         guard (200...299).contains(httpResponse.statusCode) else {
-            throw URLError(.init(rawValue: httpResponse.statusCode))
+            throw RequestError.httpError(httpResponse.statusCode)
         }
         return data
     }
