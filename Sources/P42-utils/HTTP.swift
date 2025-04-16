@@ -33,3 +33,17 @@ public enum RequestError: Error {
     case httpError(Int)
     case unauthorized
 }
+
+public func isExpiredHTTPError(
+    _ error: Error
+) -> Bool {
+    if let httpError = error as? RequestError {
+        switch httpError {
+        case .httpError(401), .httpError(403):
+            return true
+        default:
+            return false
+        }
+    }
+    return false
+}
