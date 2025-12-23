@@ -114,5 +114,21 @@ public class Utils {
         
         return "\(number)"
     }
+    
+    func refreshDelayIndicator(
+        now: Date = Date(),
+        lastUpdate: Date,
+        boundaryMinutes: Int = 5
+    ) -> String? {
+        let boundarySeconds = boundaryMinutes * 60
+        let deltaSeconds = Int(now.timeIntervalSince(lastUpdate))
+
+        guard deltaSeconds >= boundarySeconds else {
+            return nil
+        }
+
+        let roundedMinutes = (deltaSeconds / boundarySeconds) * boundaryMinutes
+        return "-\(roundedMinutes)min"
+    }
 
 }
