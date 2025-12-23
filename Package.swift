@@ -7,7 +7,7 @@ let package = Package(
     name: "P42-utils",
     platforms: [
         .iOS(.v16),
-        .watchOS(.v6),
+        .watchOS(.v9),
         .macOS(.v11)
     ],
     products: [
