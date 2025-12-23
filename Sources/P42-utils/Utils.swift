@@ -115,7 +115,7 @@ public class Utils {
         return "\(number)"
     }
     
-    func delayIndicator(
+    public static func delayIndicator(
         now: Date = Date(),
         lastUpdate: Date,
         boundaryMinutes: Int = 5
