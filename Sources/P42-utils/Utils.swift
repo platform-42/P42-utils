@@ -115,7 +115,7 @@ public class Utils {
         return "\(number)"
     }
     
-    func refreshDelayIndicator(
+    func delayIndicator(
         now: Date = Date(),
         lastUpdate: Date,
         boundaryMinutes: Int = 5
