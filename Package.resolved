@@ -3,10 +3,10 @@
     {
       "identity" : "p42-extensions",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/platform-42/P42-extensions.git",
+      "location" : "git@github.com:platform-42/P42-extensions.git",
       "state" : {
-        "revision" : "f0dceca7ae884bb9c7556040aaa4d75cd5bd7958",
-        "version" : "4.0.0"
+        "branch" : "main",
+        "revision" : "b0c0fad641aacb651dfae0fecaca7207a9d4a28f"
       }
     }
   ],
