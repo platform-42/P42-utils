@@ -128,7 +128,7 @@ public class Utils {
         }
 
         let roundedMinutes = (deltaSeconds / boundarySeconds) * boundaryMinutes
-        return "-\(roundedMinutes)min"
+        return "\(roundedMinutes)m ago"
     }
 
 }
