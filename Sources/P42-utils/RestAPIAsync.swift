@@ -15,16 +15,9 @@ public class RestAPIAsync {
     ) -> (field: String, value: String) {
         switch kind {
         case .bearer:
-            return (
-                HTTPHeader.authorization.rawValue,
-                "Bearer \(secret)"
-            )
-
+            return (HTTPHeader.authorization.rawValue, "Bearer \(secret)")
         case .shopify:
-            return (
-                ShopifyHeader.access_token.rawValue,
-                secret
-            )
+            return (HTTPHeader.shopify_authorization.rawValue, secret)
         }
     }
     
@@ -41,10 +34,7 @@ public class RestAPIAsync {
             let header = authHeader(secret: secret, kind: kind)
             request.addValue(header.value, forHTTPHeaderField: header.field)
         }
-        request.addValue(
-            "application/json",
-            forHTTPHeaderField: HTTPHeader.contentType.rawValue
-        )
+        request.addValue("application/json",forHTTPHeaderField: HTTPHeader.contentType.rawValue)
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let httpResponse = response as? HTTPURLResponse else {
             throw RequestError.noData
@@ -70,10 +60,7 @@ public class RestAPIAsync {
             let header = authHeader(secret: secret, kind: kind)
             request.addValue(header.value, forHTTPHeaderField: header.field)
         }
-        request.addValue(
-            "application/json",
-            forHTTPHeaderField: HTTPHeader.contentType.rawValue
-        )
+        request.addValue("application/json", forHTTPHeaderField: HTTPHeader.contentType.rawValue)
         request.httpBody = try? JSONSerialization.data(withJSONObject: jsonBody)
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let httpResponse = response as? HTTPURLResponse else {

@@ -8,11 +8,8 @@
 import Foundation
 
 
-public enum ShopifyHeader: String {
-    case access_token = "X-Shopify-Access-Token"
-}
-
 public enum HTTPHeader: String {
+    case shopify_authorization = "Shopify-Authorization"
     case contentType = "Content-Type"
     case authorization = "Authorization"
     case accept = "Accept"
