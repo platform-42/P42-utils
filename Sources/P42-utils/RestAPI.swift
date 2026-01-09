@@ -29,7 +29,7 @@ public class RestAPI {
         }
         var request = URLRequest(url: url)
         if let secret = secret {
-            request.addValue(secret, forHTTPHeaderField: ShopifyHeader.access_token.rawValue)
+            request.addValue(secret, forHTTPHeaderField: HTTPHeader.shopify_authorization.rawValue)
         }
         request.addValue("application/json", forHTTPHeaderField: HTTPHeader.contentType.rawValue)
         URLSession.shared.dataTask(with: request) { data, response, error in
