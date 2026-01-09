@@ -47,3 +47,9 @@ public func isExpiredHTTPError(
     }
     return false
 }
+
+
+public enum AuthKind {
+    case bearer
+    case shopify
+}
