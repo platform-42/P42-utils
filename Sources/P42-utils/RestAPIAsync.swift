@@ -38,7 +38,7 @@ public class RestAPIAsync {
         }
         var request = URLRequest(url: url)
         if let secret = secret {
-            let header = authHeader(secret: secret, kind: .shopify)
+            let header = authHeader(secret: secret, kind: kind)
             request.addValue(header.value, forHTTPHeaderField: header.field)
         }
         request.addValue(
@@ -67,7 +67,7 @@ public class RestAPIAsync {
         var request = URLRequest(url: url)
         request.httpMethod = RequestType.post.rawValue
         if let secret = secret {
-            let header = authHeader(secret: secret, kind: .shopify)
+            let header = authHeader(secret: secret, kind: kind)
             request.addValue(header.value, forHTTPHeaderField: header.field)
         }
         request.addValue(
