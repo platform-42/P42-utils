@@ -35,27 +35,27 @@ public enum StateColor: Int {
 
 
 public class Utils {
-
+    
     
     public static func stateFieldImage(_ stateLogic: StateLogic) -> String {
         switch (stateLogic) {
-            case .up: return StateIndicator.up.rawValue
-            case .down: return StateIndicator.down.rawValue
-            case .neutral: return StateIndicator.neutral.rawValue
-            case .none: return StateIndicator.neutral.rawValue
+        case .up: return StateIndicator.up.rawValue
+        case .down: return StateIndicator.down.rawValue
+        case .neutral: return StateIndicator.neutral.rawValue
+        case .none: return StateIndicator.neutral.rawValue
         }
     }
     
     @available(macOS 10.15, *)
     public static func stateFieldColor(_ stateLogic: StateLogic) -> Color {
         switch (stateLogic) {
-            case .up: return Color(hex: StateColor.up.rawValue)
-            case .down: return Color(hex: StateColor.down.rawValue)
-            case .neutral: return Color(hex: StateColor.neutral.rawValue)
-            case .none: return Color.clear
+        case .up: return Color(hex: StateColor.up.rawValue)
+        case .down: return Color(hex: StateColor.down.rawValue)
+        case .neutral: return Color(hex: StateColor.neutral.rawValue)
+        case .none: return Color.clear
         }
     }
-            
+    
     public static func iosVersion() -> String {
         let os = ProcessInfo.processInfo.operatingSystemVersion
         return "\(os.majorVersion).\(os.minorVersion).\(os.patchVersion)"
@@ -64,7 +64,7 @@ public class Utils {
     public static func showBadge(_ syncState: Bool) -> String? {
         return syncState ? "s" : nil
     }
-
+    
     
     public static func formatDate(from isoDateString: String) -> String {
         let formatter = ISO8601DateFormatter()
@@ -122,13 +122,20 @@ public class Utils {
     ) -> String? {
         let boundarySeconds = boundaryMinutes * 60
         let deltaSeconds = Int(now.timeIntervalSince(lastUpdate))
-
+        
         guard deltaSeconds >= boundarySeconds else {
             return nil
         }
-
+        
         let roundedMinutes = (deltaSeconds / boundarySeconds) * boundaryMinutes
-        return "\(roundedMinutes)m ago"
+        
+        if (roundedMinutes < 60) {
+            return "\(roundedMinutes)m ago"
+        }
+        if (roundedMinutes < 24 * 60) {
+            return "\(roundedMinutes/60)h ago"
+        }
+        return "\(roundedMinutes/(24*60))d ago"
     }
 
 }
