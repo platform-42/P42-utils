@@ -116,12 +116,12 @@ public class Utils {
     }
     
     public static func delayIndicator(
+        currentDate: Date,
         lastUpdate: Date,
         boundaryMinutes: Int = 1
     ) -> String? {
-        let now: Date = Date()
         let boundarySeconds: Int = boundaryMinutes * 60
-        let deltaSeconds: Int = Int(now.timeIntervalSince(lastUpdate))
+        let deltaSeconds: Int = Int(currentDate.timeIntervalSince(lastUpdate))
         
         guard deltaSeconds >= boundarySeconds else {
             return nil
