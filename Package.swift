@@ -25,6 +25,5 @@ let package = Package(
                 "P42-extensions"
             ]
         ),
-
     ]
 )
