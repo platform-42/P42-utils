@@ -23,8 +23,7 @@ let package = Package(
             name: "P42-utils",
             dependencies: [
                 "P42-extensions"
-            ],
-            path: "Sources/P42-utils"
+            ]
         ),
 
     ]
