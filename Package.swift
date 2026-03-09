@@ -22,8 +22,9 @@ let package = Package(
         .target(
             name: "P42-utils",
             dependencies: [
-                "P42-extensions"
+                .product(name: "P42-extensions", package: "P42-extensions")
             ]
         ),
     ]
 )
+
