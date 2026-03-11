@@ -45,6 +45,7 @@ public class RestAPIAsync {
         return data
     }
 
+    /*
     public static func postRequest(
         url: String,
         secret: String?,
@@ -70,6 +71,74 @@ public class RestAPIAsync {
             throw RequestError.httpError(httpResponse.statusCode)
         }
         return data
+    } */
+    
+    /*
+     *  2026-03-11 DDB:
+     *      new postRequest with dynamic header and dynamic body
+     */
+    public static func postRequest(
+        url: String,
+        secret: String?,
+        kind: AuthKind = .bearer,
+        headers: [String: String] = [:],
+        body: Data? = nil
+    ) async throws -> Data {
+
+        guard let url = URL(string: url) else {
+            throw RequestError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = RequestType.post.rawValue
+
+        if let secret = secret {
+            let header = authHeader(secret: secret, kind: kind)
+            request.setValue(header.value, forHTTPHeaderField: header.field)
+        }
+
+        for (key, value) in headers {
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+
+        request.httpBody = body
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw RequestError.noData
+        }
+
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw RequestError.httpError(httpResponse.statusCode)
+        }
+
+        return data
+    }
+    
+    
+    /*
+     *  2026-03-11 DDB:
+     *      legacy postRequest with static header and fixed body, made for transparency
+     */
+    public static func postRequest(
+        url: String,
+        secret: String?,
+        kind: AuthKind = .bearer,
+        jsonBody: [String: Any]
+    ) async throws -> Data {
+
+        let body = try JSONSerialization.data(withJSONObject: jsonBody)
+
+        return try await postRequest(
+            url: url,
+            secret: secret,
+            kind: kind,
+            headers: [
+                HTTPHeader.contentType.rawValue: "application/json"
+            ],
+            body: body
+        )
     }
     
 }
