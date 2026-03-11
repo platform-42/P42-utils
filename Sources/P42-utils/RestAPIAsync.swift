@@ -45,33 +45,6 @@ public class RestAPIAsync {
         return data
     }
 
-    /*
-    public static func postRequest(
-        url: String,
-        secret: String?,
-        kind: AuthKind = .bearer,
-        jsonBody: [String: Any]
-    ) async throws -> Data {
-        guard let url = URL(string: url) else {
-            throw RequestError.invalidURL
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = RequestType.post.rawValue
-        if let secret = secret {
-            let header = authHeader(secret: secret, kind: kind)
-            request.addValue(header.value, forHTTPHeaderField: header.field)
-        }
-        request.addValue("application/json", forHTTPHeaderField: HTTPHeader.contentType.rawValue)
-        request.httpBody = try? JSONSerialization.data(withJSONObject: jsonBody)
-        let (data, response) = try await URLSession.shared.data(for: request)
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw RequestError.noData
-        }
-        guard (200...299).contains(httpResponse.statusCode) else {
-            throw RequestError.httpError(httpResponse.statusCode)
-        }
-        return data
-    } */
     
     /*
      *  2026-03-11 DDB:
