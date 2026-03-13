@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-import P42_extensions
+import P42Extensions
 
 /*
  *  state model and colors
