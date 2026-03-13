@@ -1,13 +1,12 @@
-
-
 //
 //  Json.swift
-//  shops24
+//  P42Utils
 //
 //  Created by Diederick de Buck on 18/12/2022.
 //
 
 import Foundation
+
 
 public class Json {
     

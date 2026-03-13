@@ -1,6 +1,6 @@
 //
 //  Tasks.swift
-//  P42-utils
+//  P42Utils
 //
 //  Created by Diederick de Buck on 16/04/2025.
 //

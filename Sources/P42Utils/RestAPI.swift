@@ -1,6 +1,6 @@
 //
 //  RestAPI.swift
-//  shops24
+//  P42Utils
 //
 //  Created by Diederick de Buck on 18/04/2023.
 //

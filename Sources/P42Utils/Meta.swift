@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  Meta.swift
+//  P42Utils
 //
 //  Created by Diederick de Buck on 10/09/2024.
 //
@@ -8,6 +8,7 @@
 public enum MetaState {
     case nowait
 }
+
 
 public class Meta {
     public var resources: Int

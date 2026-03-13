@@ -1,6 +1,6 @@
 //
 //  Utils.swift
-//  shops24 Watch App
+//  P42Utils
 //
 //  Created by Diederick de Buck on 23/04/2023.
 //
@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import P42Extensions
+
 
 /*
  *  state model and colors

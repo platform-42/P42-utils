@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  HTTP.swift
+//  P42Utils
 //
 //  Created by Diederick de Buck on 19/12/2024.
 //
