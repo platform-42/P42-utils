@@ -16,7 +16,7 @@ let package = Package(
             targets: ["P42Utils"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/platform-42/P42Extensions.git", branch: "main")
+        .package(url: "https://github.com/platform-42/P42Extensions.git", from: "6.0.0")
     ],
     targets: [
         .target(
