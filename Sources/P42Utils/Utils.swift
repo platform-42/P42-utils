@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import P42Extensions
 
 
 /*
@@ -37,6 +36,19 @@ public enum StateColor: Int {
 
 public class Utils {
     
+    public static func ColorRGB(
+        _ hex: Int,
+        opacity: Double = 1.0
+    ) -> Color {
+        let red = Double((hex & 0xff0000) >> 16) / 255.0
+        let green = Double((hex & 0xff00) >> 8) / 255.0
+        let blue = Double((hex & 0xff) >> 0) / 255.0
+        return Color(
+            red: red,
+            green: green,
+            blue: blue
+        ).opacity(opacity)
+    }
     
     public static func stateFieldImage(_ stateLogic: StateLogic) -> String {
         switch (stateLogic) {
@@ -50,9 +62,9 @@ public class Utils {
     @available(macOS 10.15, *)
     public static func stateFieldColor(_ stateLogic: StateLogic) -> Color {
         switch (stateLogic) {
-        case .up: return Color(hex: StateColor.up.rawValue)
-        case .down: return Color(hex: StateColor.down.rawValue)
-        case .neutral: return Color(hex: StateColor.neutral.rawValue)
+        case .up: return Utils.ColorRGB(StateColor.up.rawValue)
+        case .down: return Utils.ColorRGB(StateColor.down.rawValue)
+        case .neutral: return Utils.ColorRGB(StateColor.neutral.rawValue)
         case .none: return Color.clear
         }
     }
@@ -138,5 +150,5 @@ public class Utils {
         }
         return "\(roundedMinutes/(24*60))d ago"
     }
-
+    
 }
