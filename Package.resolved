@@ -1,0 +1,15 @@
+{
+  "originHash" : "22eb945256e22861f851a42be884e01e53f600d6508b1ec71f9c316f1349a347",
+  "pins" : [
+    {
+      "identity" : "p42extensions",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:platform-42/P42Extensions.git",
+      "state" : {
+        "revision" : "cfa117a1a6fc1f88861dd04bdcf11b7aa346ad9b",
+        "version" : "6.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}

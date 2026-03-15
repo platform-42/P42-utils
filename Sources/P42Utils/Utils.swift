@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import P42Extensions
 
 
 /*
@@ -35,7 +36,8 @@ public enum StateColor: Int {
 
 
 public class Utils {
-    
+  
+/*
     public static func ColorRGB(
         _ hex: Int,
         opacity: Double = 1.0
@@ -49,7 +51,7 @@ public class Utils {
             blue: blue
         ).opacity(opacity)
     }
-    
+*/
     public static func stateFieldImage(_ stateLogic: StateLogic) -> String {
         switch (stateLogic) {
         case .up: return StateIndicator.up.rawValue
@@ -62,9 +64,9 @@ public class Utils {
     @available(macOS 10.15, *)
     public static func stateFieldColor(_ stateLogic: StateLogic) -> Color {
         switch (stateLogic) {
-        case .up: return Utils.ColorRGB(StateColor.up.rawValue)
-        case .down: return Utils.ColorRGB(StateColor.down.rawValue)
-        case .neutral: return Utils.ColorRGB(StateColor.neutral.rawValue)
+        case .up: return Color(hex: StateColor.up.rawValue)
+        case .down: return Color(hex: StateColor.down.rawValue)
+        case .neutral: return Color(hex: StateColor.neutral.rawValue)
         case .none: return Color.clear
         }
     }
