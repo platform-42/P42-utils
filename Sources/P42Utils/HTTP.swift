@@ -17,6 +17,7 @@ public enum HTTPHeader: String {
     case cacheControl = "Cache-Control"
 }
 
+
 public enum RequestType: String {
     case get
     case put
@@ -24,12 +25,26 @@ public enum RequestType: String {
     case delete
 }
 
+
 public enum RequestError: Error {
     case invalidURL
     case noData
     case httpError(Int)
-    case unauthorized
+    case unauthorized(String?)
 }
+
+// P42Utils
+extension RequestError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .unauthorized(let body): return "Unauthorized: \(body ?? "")"
+        case .httpError(let code): return "HTTP \(code))"
+        case .invalidURL: return "Invalid URL"
+        case .noData: return "No data received"
+        }
+    }
+}
+
 
 public func isExpiredHTTPError(
     _ error: Error
