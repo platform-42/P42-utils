@@ -33,9 +33,10 @@ public enum RequestError: Error {
     case unauthorized(String?)
 }
 
+
 // P42Utils
 extension RequestError: LocalizedError {
-    public var errorDescription: String? {
+    public var errorDetails: String? {
         switch self {
         case .unauthorized(let body): return "Unauthorized: \(body ?? "")"
         case .httpError(let code): return "HTTP \(code))"
