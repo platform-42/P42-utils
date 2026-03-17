@@ -9,7 +9,7 @@ import Foundation
 
 
 public enum HTTPHeader: String {
-    case shopify_authorization = "Shopify-Authorization"
+    case shopify_authorization = "X-Shopify-Access-Token"
     case contentType = "Content-Type"
     case authorization = "Authorization"
     case accept = "Accept"
