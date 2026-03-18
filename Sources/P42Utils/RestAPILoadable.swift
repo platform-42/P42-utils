@@ -12,7 +12,8 @@ public protocol RestAPILoadable {
     func loadDataByGet(
         urlComponents: URLComponents,
         accessToken: String,
-        handler: @escaping (Data) -> Void
+        handler: @escaping (Data) -> Void,
+        onError: ((Error) -> Void)?
     ) async
 }
 
