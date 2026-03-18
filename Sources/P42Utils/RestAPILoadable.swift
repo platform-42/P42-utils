@@ -12,6 +12,7 @@ public protocol RestAPILoadable {
     func loadDataByGet(
         urlComponents: URLComponents,
         accessToken: String,
+        kind: AuthKind,
         handler: @escaping (Data) -> Void,
         onError: ((Error) -> Void)?
     ) async
@@ -28,6 +29,7 @@ public extension RestAPILoadable {
     func loadDataByGet(
         urlComponents: URLComponents,
         accessToken: String,
+        kind: AuthKind,
         handler: @escaping (Data) -> Void,
         onError: ((Error) -> Void)? = nil
     ) async {
@@ -39,7 +41,7 @@ public extension RestAPILoadable {
             let response = try await RestAPIAsync.getRequest(
                 url: url.absoluteString,
                 secret: accessToken,
-                kind: .shopify
+                kind: kind
             )
 
             handler(response)
