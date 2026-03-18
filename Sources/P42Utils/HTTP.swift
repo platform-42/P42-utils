@@ -15,6 +15,7 @@ public enum HTTPHeader: String {
     case accept = "Accept"
     case userAgent = "User-Agent"
     case cacheControl = "Cache-Control"
+    case apiKey = "X-API-Key"
 }
 
 
@@ -65,4 +66,5 @@ public func isExpiredHTTPError(
 public enum AuthKind {
     case bearer
     case shopify
+    case apiKey
 }

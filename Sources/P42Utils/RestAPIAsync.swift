@@ -19,6 +19,8 @@ public class RestAPIAsync {
             return (HTTPHeader.authorization.rawValue, "Bearer \(secret)")
         case .shopify:
             return (HTTPHeader.shopify_authorization.rawValue, secret)
+        case .apiKey:
+            return (HTTPHeader.apiKey.rawValue, secret)
         }
     }
     
