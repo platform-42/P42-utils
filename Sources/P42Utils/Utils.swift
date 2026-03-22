@@ -37,21 +37,7 @@ public enum StateColor: Int {
 
 public class Utils {
   
-/*
-    public static func ColorRGB(
-        _ hex: Int,
-        opacity: Double = 1.0
-    ) -> Color {
-        let red = Double((hex & 0xff0000) >> 16) / 255.0
-        let green = Double((hex & 0xff00) >> 8) / 255.0
-        let blue = Double((hex & 0xff) >> 0) / 255.0
-        return Color(
-            red: red,
-            green: green,
-            blue: blue
-        ).opacity(opacity)
-    }
-*/
+
     public static func stateFieldImage(_ stateLogic: StateLogic) -> String {
         switch (stateLogic) {
         case .up: return StateIndicator.up.rawValue
