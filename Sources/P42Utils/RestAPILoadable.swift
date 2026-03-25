@@ -11,7 +11,7 @@ import Foundation
 public protocol RestAPILoadable {
     func loadDataByGet(
         urlComponents: URLComponents,
-        accessToken: String,
+        accessToken: String?,
         kind: AuthKind,
         handler: @escaping (Data) -> Void,
         onError: ((Error) -> Void)?
@@ -28,7 +28,7 @@ public extension RestAPILoadable {
      */
     func loadDataByGet(
         urlComponents: URLComponents,
-        accessToken: String,
+        accessToken: String?,
         kind: AuthKind,
         handler: @escaping (Data) -> Void,
         onError: ((Error) -> Void)? = nil
