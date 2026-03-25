@@ -11,7 +11,7 @@ import Foundation
 public protocol RestAPILoadable {
     func loadDataByGet(
         urlComponents: URLComponents,
-        accessToken: String?,
+        secret: String?,
         kind: AuthKind,
         handler: @escaping (Data) -> Void,
         onError: ((Error) -> Void)?
@@ -28,7 +28,7 @@ public extension RestAPILoadable {
      */
     func loadDataByGet(
         urlComponents: URLComponents,
-        accessToken: String?,
+        secret: String?,
         kind: AuthKind,
         handler: @escaping (Data) -> Void,
         onError: ((Error) -> Void)? = nil
@@ -40,7 +40,7 @@ public extension RestAPILoadable {
         do {
             let response = try await RestAPIAsync.getRequest(
                 url: url.absoluteString,
-                secret: accessToken,
+                secret: secret,
                 kind: kind,
                 headers: [
                     HTTPHeader.contentType.rawValue: "application/json",
