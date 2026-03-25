@@ -15,6 +15,8 @@ public class RestAPIAsync {
         kind: AuthKind
     ) -> (field: String, value: String) {
         switch kind {
+        case .none:
+            return ("", "")
         case .bearer:
             return (HTTPHeader.authorization.rawValue, "Bearer \(secret)")
         case .shopify:
