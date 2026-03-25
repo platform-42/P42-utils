@@ -29,17 +29,23 @@ public class RestAPIAsync {
     public static func getRequest(
         url: String,
         secret: String?,
-        kind: AuthKind = .bearer
+        kind: AuthKind = .bearer,
+        headers: [String: String] = [:]
     ) async throws -> Data {
         guard let url = URL(string: url) else {
             throw RequestError.invalidURL
         }
+        
         var request = URLRequest(url: url)
         if let secret = secret {
             let header = authHeader(secret: secret, kind: kind)
             request.addValue(header.value, forHTTPHeaderField: header.field)
         }
-        request.addValue("application/json",forHTTPHeaderField: HTTPHeader.contentType.rawValue)
+        
+        for (key, value) in headers {
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+        
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let httpResponse = response as? HTTPURLResponse else {
             throw RequestError.noData
@@ -48,6 +54,22 @@ public class RestAPIAsync {
             throw RequestError.httpError(httpResponse.statusCode)
         }
         return data
+    }
+    
+    
+    public static func getRequest(
+        url: String,
+        secret: String?,
+        kind: AuthKind = .bearer
+    ) async throws -> Data {
+        return try await getRequest(
+            url: url,
+            secret: secret,
+            kind: kind,
+            headers: [
+                HTTPHeader.contentType.rawValue: "application/json"
+            ]
+        )
     }
 
     
@@ -80,7 +102,6 @@ public class RestAPIAsync {
         }
 
         request.httpBody = body
-
         let (data, response) = try await URLSession.shared.data(for: request)
 
         guard let httpResponse = response as? HTTPURLResponse else {

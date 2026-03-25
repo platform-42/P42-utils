@@ -41,7 +41,11 @@ public extension RestAPILoadable {
             let response = try await RestAPIAsync.getRequest(
                 url: url.absoluteString,
                 secret: accessToken,
-                kind: kind
+                kind: kind,
+                headers: [
+                    HTTPHeader.contentType.rawValue: "application/json",
+                    "User-Agent": "Mozilla/5.0"
+                ]
             )
 
             handler(response)
