@@ -67,4 +67,5 @@ public enum AuthKind {
     case bearer
     case shopify
     case apiKey
+    case none
 }
