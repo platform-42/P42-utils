@@ -38,7 +38,9 @@ public enum StateColor: Int {
 public class Utils {
   
 
-    public static func stateFieldImage(_ stateLogic: StateLogic) -> String {
+    public static func stateFieldImage(
+        _ stateLogic: StateLogic
+    ) -> String {
         switch (stateLogic) {
         case .up: return StateIndicator.up.rawValue
         case .down: return StateIndicator.down.rawValue
@@ -48,7 +50,9 @@ public class Utils {
     }
     
     @available(macOS 10.15, *)
-    public static func stateFieldColor(_ stateLogic: StateLogic) -> Color {
+    public static func stateFieldColor(
+        _ stateLogic: StateLogic
+    ) -> Color {
         switch (stateLogic) {
         case .up: return Color(hex: StateColor.up.rawValue)
         case .down: return Color(hex: StateColor.down.rawValue)
@@ -62,12 +66,16 @@ public class Utils {
         return "\(os.majorVersion).\(os.minorVersion).\(os.patchVersion)"
     }
     
-    public static func showBadge(_ syncState: Bool) -> String? {
+    public static func showBadge(
+        _ syncState: Bool
+    ) -> String? {
         return syncState ? "s" : nil
     }
     
     
-    public static func formatDate(from isoDateString: String) -> String {
+    public static func formatDate(
+        from isoDateString: String
+    ) -> String {
         let formatter = ISO8601DateFormatter()
         if let date = formatter.date(from: isoDateString) {
             let dateFormatter = DateFormatter()
@@ -79,14 +87,20 @@ public class Utils {
         }
     }
     
-    public static func autoscaleCurrency(_ numberString: String, currencyCode: String = "EUR") -> String {
+    public static func autoscaleCurrency(
+        _ numberString: String,
+        currencyCode: String = "EUR"
+    ) -> String {
         if let doubleValue = Double(numberString) {
             return Utils.autoscale(doubleValue, currencyCode: currencyCode)
         }
         return Utils.autoscale(0, currencyCode: currencyCode)
     }
     
-    public static func autoscale(_ number: Double, currencyCode: String = "EUR") -> String {
+    public static func autoscale(
+        _ number: Double,
+        currencyCode: String = "EUR"
+    ) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
         numberFormatter.currencyCode = currencyCode
